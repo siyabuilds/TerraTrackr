@@ -5,7 +5,10 @@ export function getToken(): string | null {
   return localStorage.getItem(TOKEN_KEY);
 }
 
-async function apiRequest<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
+async function apiRequest<T>(
+  endpoint: string,
+  options: RequestInit = {},
+): Promise<T> {
   const token = getToken();
 
   const headers: Record<string, string> = {
@@ -41,7 +44,8 @@ async function apiRequest<T>(endpoint: string, options: RequestInit = {}): Promi
     }
 
     if (!response.ok) {
-      const message = (data && data.message) || `Request failed: ${response.status}`;
+      const message =
+        (data && data.message) || `Request failed: ${response.status}`;
       throw new Error(message);
     }
 
@@ -127,13 +131,22 @@ export const categoryColors: Record<string, string> = {
 };
 
 export const api = {
-  login: (credentials: { email?: string; username?: string; password: string }) =>
+  login: (credentials: {
+    email?: string;
+    username?: string;
+    password: string;
+  }) =>
     apiRequest<{ message: string; token: string }>("/api/auth/login", {
       method: "POST",
       body: JSON.stringify(credentials),
     }),
 
-  register: (data: { fullName: string; username: string; email: string; password: string }) =>
+  register: (data: {
+    fullName: string;
+    username: string;
+    email: string;
+    password: string;
+  }) =>
     apiRequest<{ message: string }>("/api/auth/register", {
       method: "POST",
       body: JSON.stringify(data),
@@ -150,7 +163,11 @@ export const api = {
       method: "GET",
     }),
 
-  createActivity: (data: { category: string; activity: string; date?: string }) =>
+  createActivity: (data: {
+    category: string;
+    activity: string;
+    date?: string;
+  }) =>
     apiRequest<Activity>("/api/activities", {
       method: "POST",
       body: JSON.stringify(data),
@@ -179,9 +196,62 @@ export const api = {
     }),
 
   generateSummary: () =>
-    apiRequest<{ message: string; summary: WeeklySummary }>("/api/summaries/generate", {
-      method: "POST",
+    apiRequest<{ message: string; summary: WeeklySummary }>(
+      "/api/summaries/generate",
+      {
+        method: "POST",
+      },
+    ),
+
+  // Targets
+  getActiveTarget: (period: "weekly" | "monthly" = "weekly") =>
+    apiRequest<{ target: ReductionTarget }>(`/api/targets?period=${period}`, {
+      method: "GET",
     }),
+
+  createTarget: (data: {
+    targetType?: "percentage" | "absolute";
+    targetValue: number;
+    description?: string;
+    targetPeriod?: "weekly" | "monthly";
+    categories?: string[];
+  }) =>
+    apiRequest<{ message: string; target: ReductionTarget }>("/api/targets", {
+      method: "POST",
+      body: JSON.stringify(data),
+    }),
+
+  updateTarget: (
+    id: string,
+    data: {
+      targetType?: "percentage" | "absolute";
+      targetValue?: number;
+      description?: string;
+      targetPeriod?: "weekly" | "monthly";
+      categories?: string[];
+      isActive?: boolean;
+    },
+  ) =>
+    apiRequest<{ message: string; target: ReductionTarget }>(
+      `/api/targets/${id}`,
+      {
+        method: "PUT",
+        body: JSON.stringify(data),
+      },
+    ),
+
+  deleteTarget: (id: string) =>
+    apiRequest<{ message: string }>(`/api/targets/${id}`, {
+      method: "DELETE",
+    }),
+
+  getTargetHistory: (period: "weekly" | "monthly" = "weekly") =>
+    apiRequest<{ targets: ReductionTarget[] }>(
+      `/api/targets/history?period=${period}`,
+      {
+        method: "GET",
+      },
+    ),
 };
 
 export interface LeaderboardEntry {
@@ -191,6 +261,19 @@ export interface LeaderboardEntry {
   fullName: string;
   totalEmissions: number;
   activityCount: number;
+}
+
+export interface ReductionTarget {
+  _id: string;
+  userId: string;
+  targetType: "percentage" | "absolute";
+  targetValue: number;
+  description?: string;
+  isActive: boolean;
+  targetPeriod: "weekly" | "monthly";
+  categories: string[];
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface WeeklySummary {
