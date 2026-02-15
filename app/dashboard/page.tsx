@@ -373,9 +373,9 @@ export default function DashboardPage() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.3 }}
-          className="rounded-xl bg-card p-4 sm:p-6 shadow-sm"
+          className="rounded-xl bg-card p-4 sm:p-6 shadow-sm min-w-0 overflow-hidden"
         >
-          <div className="h-60 sm:h-80">
+          <div className="h-60 sm:h-80 w-full min-w-0">
             <Bar data={barChartData} options={barChartOptions} />
           </div>
         </motion.div>
@@ -384,12 +384,12 @@ export default function DashboardPage() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.35 }}
-          className="rounded-xl bg-card p-4 sm:p-6 shadow-sm"
+          className="rounded-xl bg-card p-4 sm:p-6 shadow-sm min-w-0 overflow-hidden"
         >
           <h3 className="mb-3 sm:mb-4 text-center text-base sm:text-lg font-medium text-muted">
             Emissions Distribution
           </h3>
-          <div className="h-60 sm:h-72">
+          <div className="h-60 sm:h-72 w-full min-w-0">
             <Doughnut data={doughnutChartData} options={doughnutChartOptions} />
           </div>
         </motion.div>
