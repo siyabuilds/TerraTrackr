@@ -39,7 +39,7 @@ ChartJS.register(
   Legend,
   ArcElement,
   PointElement,
-  LineElement
+  LineElement,
 );
 
 export default function DashboardPage() {
@@ -58,10 +58,10 @@ export default function DashboardPage() {
 
   // Filter state
   const [filterCategory, setFilterCategory] = useState<string>("All");
-  
+
   // Mobile detection for chart responsiveness
   const [isMobile, setIsMobile] = useState(false);
-  
+
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 640);
     checkMobile();
@@ -142,7 +142,10 @@ export default function DashboardPage() {
   }, [activities, categories]);
 
   const totalEmissions = useMemo(() => {
-    return Object.values(emissionsByCategory).reduce((sum, val) => sum + val, 0);
+    return Object.values(emissionsByCategory).reduce(
+      (sum, val) => sum + val,
+      0,
+    );
   }, [emissionsByCategory]);
 
   // Bar chart data
@@ -207,7 +210,7 @@ export default function DashboardPage() {
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        position: isMobile ? "bottom" as const : "right" as const,
+        position: isMobile ? ("bottom" as const) : ("right" as const),
         labels: {
           color: "rgb(156, 163, 175)",
           padding: 10,
@@ -228,29 +231,31 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8 overflow-x-hidden">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
       >
-        <div className="flex items-center gap-3">
-          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-            <LayoutDashboard className="h-6 w-6 text-primary" />
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="flex h-10 w-10 sm:h-12 sm:w-12 flex-shrink-0 items-center justify-center rounded-full bg-primary/10">
+            <LayoutDashboard className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
           </div>
-          <div>
-            <h1 className="text-2xl font-bold text-foreground sm:text-3xl">
+          <div className="min-w-0">
+            <h1 className="text-xl font-bold text-foreground sm:text-3xl">
               Dashboard
             </h1>
-            <p className="text-sm text-muted">Track your carbon footprint</p>
+            <p className="text-xs sm:text-sm text-muted">
+              Track your carbon footprint
+            </p>
           </div>
         </div>
         <motion.button
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           onClick={() => setShowAddModal(true)}
-          className="flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 font-medium text-white transition-colors hover:bg-primary-hover"
+          className="flex w-full sm:w-auto items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 font-medium text-white transition-colors hover:bg-primary-hover"
         >
           <Plus className="h-5 w-5" />
           Log Activity
@@ -271,20 +276,20 @@ export default function DashboardPage() {
       )}
 
       {/* Stats Cards */}
-      <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mb-6 sm:mb-8 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="rounded-xl bg-card p-6 shadow-sm"
+          className="rounded-xl bg-card p-4 sm:p-6 shadow-sm"
         >
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-              <TrendingUp className="h-5 w-5 text-primary" />
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="flex h-8 w-8 sm:h-10 sm:w-10 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10">
+              <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
             </div>
-            <div>
-              <p className="text-sm text-muted">Total Emissions</p>
-              <p className="text-2xl font-bold text-foreground">
+            <div className="min-w-0">
+              <p className="text-xs sm:text-sm text-muted">Total Emissions</p>
+              <p className="text-lg sm:text-2xl font-bold text-foreground truncate">
                 {totalEmissions.toFixed(2)} kg
               </p>
             </div>
@@ -295,15 +300,15 @@ export default function DashboardPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15 }}
-          className="rounded-xl bg-card p-6 shadow-sm"
+          className="rounded-xl bg-card p-4 sm:p-6 shadow-sm"
         >
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-500/10">
-              <Leaf className="h-5 w-5 text-blue-500" />
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="flex h-8 w-8 sm:h-10 sm:w-10 flex-shrink-0 items-center justify-center rounded-lg bg-blue-500/10">
+              <Leaf className="h-4 w-4 sm:h-5 sm:w-5 text-blue-500" />
             </div>
-            <div>
-              <p className="text-sm text-muted">Activities Logged</p>
-              <p className="text-2xl font-bold text-foreground">
+            <div className="min-w-0">
+              <p className="text-xs sm:text-sm text-muted">Activities Logged</p>
+              <p className="text-lg sm:text-2xl font-bold text-foreground">
                 {activities.length}
               </p>
             </div>
@@ -314,11 +319,11 @@ export default function DashboardPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="rounded-xl bg-card p-6 shadow-sm"
+          className="rounded-xl bg-card p-4 sm:p-6 shadow-sm"
         >
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             <div
-              className="flex h-10 w-10 items-center justify-center rounded-lg"
+              className="flex h-8 w-8 sm:h-10 sm:w-10 flex-shrink-0 items-center justify-center rounded-lg"
               style={{
                 backgroundColor: `${categoryColors.Transport}20`,
               }}
@@ -328,11 +333,11 @@ export default function DashboardPage() {
                 style={{ backgroundColor: categoryColors.Transport }}
               />
             </div>
-            <div>
-              <p className="text-sm text-muted">Top Category</p>
-              <p className="text-lg font-bold text-foreground">
+            <div className="min-w-0">
+              <p className="text-xs sm:text-sm text-muted">Top Category</p>
+              <p className="text-base sm:text-lg font-bold text-foreground truncate">
                 {Object.entries(emissionsByCategory).sort(
-                  ([, a], [, b]) => b - a
+                  ([, a], [, b]) => b - a,
                 )[0]?.[0] || "N/A"}
               </p>
             </div>
@@ -343,15 +348,15 @@ export default function DashboardPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.25 }}
-          className="rounded-xl bg-card p-6 shadow-sm"
+          className="rounded-xl bg-card p-4 sm:p-6 shadow-sm"
         >
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-500/10">
-              <TrendingUp className="h-5 w-5 text-amber-500" />
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="flex h-8 w-8 sm:h-10 sm:w-10 flex-shrink-0 items-center justify-center rounded-lg bg-amber-500/10">
+              <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5 text-amber-500" />
             </div>
-            <div>
-              <p className="text-sm text-muted">Avg per Activity</p>
-              <p className="text-2xl font-bold text-foreground">
+            <div className="min-w-0">
+              <p className="text-xs sm:text-sm text-muted">Avg per Activity</p>
+              <p className="text-lg sm:text-2xl font-bold text-foreground truncate">
                 {activities.length > 0
                   ? (totalEmissions / activities.length).toFixed(2)
                   : "0.00"}{" "}
@@ -363,14 +368,14 @@ export default function DashboardPage() {
       </div>
 
       {/* Charts */}
-      <div className="mb-8 grid gap-6 lg:grid-cols-2">
+      <div className="mb-6 sm:mb-8 grid gap-4 sm:gap-6 lg:grid-cols-2">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.3 }}
-          className="rounded-xl bg-card p-6 shadow-sm"
+          className="rounded-xl bg-card p-4 sm:p-6 shadow-sm"
         >
-          <div className="h-80">
+          <div className="h-60 sm:h-80">
             <Bar data={barChartData} options={barChartOptions} />
           </div>
         </motion.div>
@@ -379,12 +384,12 @@ export default function DashboardPage() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.35 }}
-          className="rounded-xl bg-card p-6 shadow-sm"
+          className="rounded-xl bg-card p-4 sm:p-6 shadow-sm"
         >
-          <h3 className="mb-4 text-center text-lg font-medium text-muted">
+          <h3 className="mb-3 sm:mb-4 text-center text-base sm:text-lg font-medium text-muted">
             Emissions Distribution
           </h3>
-          <div className="h-72">
+          <div className="h-60 sm:h-72">
             <Doughnut data={doughnutChartData} options={doughnutChartOptions} />
           </div>
         </motion.div>
@@ -395,10 +400,12 @@ export default function DashboardPage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4 }}
-        className="rounded-xl bg-card p-6 shadow-sm"
+        className="rounded-xl bg-card p-4 sm:p-6 shadow-sm overflow-hidden"
       >
-        <div className="mb-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <h2 className="text-xl font-bold text-foreground">Activity Log</h2>
+        <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <h2 className="text-lg sm:text-xl font-bold text-foreground">
+            Activity Log
+          </h2>
 
           {/* Filter Dropdown */}
           <div className="relative">
@@ -424,7 +431,9 @@ export default function DashboardPage() {
                       setShowFilterDropdown(false);
                     }}
                     className={`w-full px-4 py-2 text-left text-sm transition-colors hover:bg-background ${
-                      filterCategory === "All" ? "text-primary" : "text-foreground"
+                      filterCategory === "All"
+                        ? "text-primary"
+                        : "text-foreground"
                     }`}
                   >
                     All Categories
@@ -437,7 +446,9 @@ export default function DashboardPage() {
                         setShowFilterDropdown(false);
                       }}
                       className={`flex w-full items-center gap-2 px-4 py-2 text-left text-sm transition-colors hover:bg-background ${
-                        filterCategory === cat ? "text-primary" : "text-foreground"
+                        filterCategory === cat
+                          ? "text-primary"
+                          : "text-foreground"
                       }`}
                     >
                       <div
@@ -464,14 +475,22 @@ export default function DashboardPage() {
             <p className="text-sm">Start tracking your carbon footprint!</p>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-0">
+          <div className="-mx-4 sm:mx-0 overflow-x-auto">
+            <table className="w-full min-w-0 px-4 sm:px-0">
               <thead>
                 <tr className="border-b border-border text-left">
-                  <th className="pb-3 text-sm font-medium text-muted">Category</th>
-                  <th className="pb-3 text-sm font-medium text-muted hidden sm:table-cell">Activity</th>
-                  <th className="pb-3 text-sm font-medium text-muted">Emissions</th>
-                  <th className="pb-3 text-sm font-medium text-muted hidden md:table-cell">Date</th>
+                  <th className="pb-3 text-sm font-medium text-muted">
+                    Category
+                  </th>
+                  <th className="pb-3 text-sm font-medium text-muted hidden sm:table-cell">
+                    Activity
+                  </th>
+                  <th className="pb-3 text-sm font-medium text-muted">
+                    Emissions
+                  </th>
+                  <th className="pb-3 text-sm font-medium text-muted hidden md:table-cell">
+                    Date
+                  </th>
                   <th className="pb-3 text-sm font-medium text-muted"></th>
                 </tr>
               </thead>
@@ -479,8 +498,8 @@ export default function DashboardPage() {
                 {filteredActivities.map((activity, index) => (
                   <motion.tr
                     key={activity._id}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
                     transition={{ delay: index * 0.03 }}
                     className="border-b border-border/50 last:border-0"
                   >
@@ -493,12 +512,18 @@ export default function DashboardPage() {
                           }}
                         />
                         <div className="min-w-0">
-                          <span className="text-foreground block truncate">{activity.category}</span>
-                          <span className="text-xs text-muted block truncate sm:hidden">{activity.activity}</span>
+                          <span className="text-foreground block truncate">
+                            {activity.category}
+                          </span>
+                          <span className="text-xs text-muted block truncate sm:hidden">
+                            {activity.activity}
+                          </span>
                         </div>
                       </div>
                     </td>
-                    <td className="py-4 text-foreground hidden sm:table-cell">{activity.activity}</td>
+                    <td className="py-4 text-foreground hidden sm:table-cell">
+                      {activity.activity}
+                    </td>
                     <td className="py-4">
                       <span
                         className="rounded-full px-2 py-1 text-xs sm:text-sm font-medium whitespace-nowrap"
@@ -507,7 +532,8 @@ export default function DashboardPage() {
                           color: categoryColors[activity.category],
                         }}
                       >
-                        {activity.value.toFixed(2)}<span className="hidden sm:inline"> kg</span> CO₂
+                        {activity.value.toFixed(2)}
+                        <span className="hidden sm:inline"> kg</span> CO₂
                       </span>
                     </td>
                     <td className="py-4 text-muted hidden md:table-cell">
@@ -548,7 +574,9 @@ export default function DashboardPage() {
               className="w-full max-w-md rounded-xl bg-card p-6 shadow-xl"
             >
               <div className="mb-6 flex items-center justify-between">
-                <h2 className="text-xl font-bold text-foreground">Log Activity</h2>
+                <h2 className="text-xl font-bold text-foreground">
+                  Log Activity
+                </h2>
                 <button
                   onClick={() => setShowAddModal(false)}
                   className="rounded-lg p-2 text-muted transition-colors hover:bg-background"
@@ -598,7 +626,7 @@ export default function DashboardPage() {
                           <option key={activity} value={activity}>
                             {activity} ({value} kg CO₂)
                           </option>
-                        )
+                        ),
                       )}
                   </select>
                 </div>
@@ -618,7 +646,9 @@ export default function DashboardPage() {
                             backgroundColor: categoryColors[selectedCategory],
                           }}
                         />
-                        <span className="text-sm text-muted">{selectedCategory}</span>
+                        <span className="text-sm text-muted">
+                          {selectedCategory}
+                        </span>
                       </div>
                       <span
                         className="rounded-full px-2.5 py-1 text-sm font-medium"
@@ -627,7 +657,8 @@ export default function DashboardPage() {
                           color: categoryColors[selectedCategory],
                         }}
                       >
-                        {activityData[selectedCategory][selectedActivity]} kg CO₂
+                        {activityData[selectedCategory][selectedActivity]} kg
+                        CO₂
                       </span>
                     </div>
                     <p className="mt-2 font-medium text-foreground">
@@ -641,7 +672,9 @@ export default function DashboardPage() {
                   whileHover={{ scale: 1.01 }}
                   whileTap={{ scale: 0.99 }}
                   onClick={handleAddActivity}
-                  disabled={!selectedCategory || !selectedActivity || isSubmitting}
+                  disabled={
+                    !selectedCategory || !selectedActivity || isSubmitting
+                  }
                   className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-3 font-medium text-white transition-colors hover:bg-primary-hover disabled:opacity-50"
                 >
                   {isSubmitting ? (

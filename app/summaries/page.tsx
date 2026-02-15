@@ -41,7 +41,7 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  ArcElement
+  ArcElement,
 );
 
 export default function SummariesPage() {
@@ -70,8 +70,8 @@ export default function SummariesPage() {
         0,
         0,
         0,
-        0
-      )
+        0,
+      ),
     );
   });
 
@@ -101,7 +101,7 @@ export default function SummariesPage() {
     try {
       setIsLoading(true);
       setError("");
-      
+
       // Check if it's the current week
       const now = new Date();
       const day = now.getUTCDay();
@@ -114,8 +114,8 @@ export default function SummariesPage() {
           0,
           0,
           0,
-          0
-        )
+          0,
+        ),
       );
 
       if (currentWeekStart.getTime() === thisWeekMonday.getTime()) {
@@ -179,7 +179,7 @@ export default function SummariesPage() {
   const navigateWeek = (direction: "prev" | "next") => {
     const newWeek = new Date(currentWeekStart);
     newWeek.setDate(newWeek.getDate() + (direction === "next" ? 7 : -7));
-    
+
     // Don't allow navigating to future weeks
     const now = new Date();
     const day = now.getUTCDay();
@@ -192,8 +192,8 @@ export default function SummariesPage() {
         0,
         0,
         0,
-        0
-      )
+        0,
+      ),
     );
 
     if (newWeek.getTime() <= thisWeekMonday.getTime()) {
@@ -214,8 +214,8 @@ export default function SummariesPage() {
         0,
         0,
         0,
-        0
-      )
+        0,
+      ),
     );
     return currentWeekStart.getTime() === thisWeekMonday.getTime();
   }, [currentWeekStart]);
@@ -236,7 +236,7 @@ export default function SummariesPage() {
 
   // Chart data
   const categories = Object.keys(categoryColors);
-  
+
   const barChartData = useMemo(() => {
     if (!summary) return null;
     const totals = summary.byCategoryTotals || {};
@@ -324,22 +324,22 @@ export default function SummariesPage() {
   }
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8 overflow-x-hidden">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
       >
-        <div className="flex items-center gap-3">
-          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-            <FileText className="h-6 w-6 text-primary" />
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="flex h-10 w-10 sm:h-12 sm:w-12 flex-shrink-0 items-center justify-center rounded-full bg-primary/10">
+            <FileText className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
           </div>
-          <div>
-            <h1 className="text-2xl font-bold text-foreground sm:text-3xl">
+          <div className="min-w-0">
+            <h1 className="text-xl font-bold text-foreground sm:text-3xl">
               Weekly Summaries
             </h1>
-            <p className="text-sm text-muted">
+            <p className="text-xs sm:text-sm text-muted">
               Review your carbon footprint analysis
             </p>
           </div>
@@ -349,7 +349,7 @@ export default function SummariesPage() {
           whileTap={{ scale: 0.98 }}
           onClick={handleGenerateSummary}
           disabled={isGenerating}
-          className="flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 font-medium text-white transition-colors hover:bg-primary-hover disabled:opacity-50"
+          className="flex w-full sm:w-auto items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 font-medium text-white transition-colors hover:bg-primary-hover disabled:opacity-50"
         >
           {isGenerating ? (
             <Loader2 className="h-5 w-5 animate-spin" />
@@ -371,8 +371,8 @@ export default function SummariesPage() {
               generateMessage.type === "success"
                 ? "bg-green-500/10 text-green-500"
                 : generateMessage.type === "error"
-                ? "bg-red-500/10 text-red-500"
-                : "bg-blue-500/10 text-blue-500"
+                  ? "bg-red-500/10 text-red-500"
+                  : "bg-blue-500/10 text-blue-500"
             }`}
           >
             {generateMessage.type === "success" ? (
@@ -421,9 +421,9 @@ export default function SummariesPage() {
           <span className="hidden sm:inline">Previous Week</span>
         </button>
 
-        <div className="flex items-center gap-2 rounded-lg bg-card px-4 py-2">
-          <Calendar className="h-5 w-5 text-primary" />
-          <span className="font-medium text-foreground">
+        <div className="flex items-center gap-2 rounded-lg bg-card px-3 sm:px-4 py-2">
+          <Calendar className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0 text-primary" />
+          <span className="text-sm sm:text-base font-medium text-foreground">
             {formatDate(currentWeekStart)} - {formatDate(weekEndDate)}
           </span>
           {isCurrentWeek && (
@@ -477,9 +477,9 @@ export default function SummariesPage() {
                       0,
                       0,
                       0,
-                      0
-                    )
-                  )
+                      0,
+                    ),
+                  ),
                 );
               }}
               className="rounded-lg bg-primary px-4 py-2 font-medium text-white transition-colors hover:bg-primary-hover"
@@ -491,20 +491,22 @@ export default function SummariesPage() {
       ) : (
         <>
           {/* Stats Cards */}
-          <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mb-6 sm:mb-8 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="rounded-xl bg-card p-6 shadow-sm"
+              className="rounded-xl bg-card p-4 sm:p-6 shadow-sm"
             >
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-                  <TrendingUp className="h-5 w-5 text-primary" />
+              <div className="flex items-center gap-2 sm:gap-3">
+                <div className="flex h-8 w-8 sm:h-10 sm:w-10 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10">
+                  <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
                 </div>
-                <div>
-                  <p className="text-sm text-muted">Total Emissions</p>
-                  <p className="text-2xl font-bold text-foreground">
+                <div className="min-w-0">
+                  <p className="text-xs sm:text-sm text-muted">
+                    Total Emissions
+                  </p>
+                  <p className="text-lg sm:text-2xl font-bold text-foreground truncate">
                     {summary.totalValue.toFixed(2)} kg
                   </p>
                 </div>
@@ -515,15 +517,17 @@ export default function SummariesPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.15 }}
-              className="rounded-xl bg-card p-6 shadow-sm"
+              className="rounded-xl bg-card p-4 sm:p-6 shadow-sm"
             >
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-500/10">
-                  <Activity className="h-5 w-5 text-blue-500" />
+              <div className="flex items-center gap-2 sm:gap-3">
+                <div className="flex h-8 w-8 sm:h-10 sm:w-10 flex-shrink-0 items-center justify-center rounded-lg bg-blue-500/10">
+                  <Activity className="h-4 w-4 sm:h-5 sm:w-5 text-blue-500" />
                 </div>
-                <div>
-                  <p className="text-sm text-muted">Activities Logged</p>
-                  <p className="text-2xl font-bold text-foreground">
+                <div className="min-w-0">
+                  <p className="text-xs sm:text-sm text-muted">
+                    Activities Logged
+                  </p>
+                  <p className="text-lg sm:text-2xl font-bold text-foreground">
                     {summary.activitiesCount}
                   </p>
                 </div>
@@ -534,11 +538,11 @@ export default function SummariesPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="rounded-xl bg-card p-6 shadow-sm"
+              className="rounded-xl bg-card p-4 sm:p-6 shadow-sm"
             >
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2 sm:gap-3">
                 <div
-                  className="flex h-10 w-10 items-center justify-center rounded-lg"
+                  className="flex h-8 w-8 sm:h-10 sm:w-10 flex-shrink-0 items-center justify-center rounded-lg"
                   style={{
                     backgroundColor: summary.highestEmissionCategory
                       ? `${categoryColors[summary.highestEmissionCategory.category]}20`
@@ -546,17 +550,21 @@ export default function SummariesPage() {
                   }}
                 >
                   <TrendingUp
-                    className="h-5 w-5"
+                    className="h-4 w-4 sm:h-5 sm:w-5"
                     style={{
                       color: summary.highestEmissionCategory
-                        ? categoryColors[summary.highestEmissionCategory.category]
+                        ? categoryColors[
+                            summary.highestEmissionCategory.category
+                          ]
                         : "#ef4444",
                     }}
                   />
                 </div>
-                <div>
-                  <p className="text-sm text-muted">Highest Category</p>
-                  <p className="text-lg font-bold text-foreground">
+                <div className="min-w-0">
+                  <p className="text-xs sm:text-sm text-muted">
+                    Highest Category
+                  </p>
+                  <p className="text-base sm:text-lg font-bold text-foreground truncate">
                     {summary.highestEmissionCategory?.category || "N/A"}
                   </p>
                 </div>
@@ -567,11 +575,11 @@ export default function SummariesPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.25 }}
-              className="rounded-xl bg-card p-6 shadow-sm"
+              className="rounded-xl bg-card p-4 sm:p-6 shadow-sm"
             >
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2 sm:gap-3">
                 <div
-                  className="flex h-10 w-10 items-center justify-center rounded-lg"
+                  className="flex h-8 w-8 sm:h-10 sm:w-10 flex-shrink-0 items-center justify-center rounded-lg"
                   style={{
                     backgroundColor: summary.lowestEmissionCategory
                       ? `${categoryColors[summary.lowestEmissionCategory.category]}20`
@@ -579,17 +587,21 @@ export default function SummariesPage() {
                   }}
                 >
                   <TrendingDown
-                    className="h-5 w-5"
+                    className="h-4 w-4 sm:h-5 sm:w-5"
                     style={{
                       color: summary.lowestEmissionCategory
-                        ? categoryColors[summary.lowestEmissionCategory.category]
+                        ? categoryColors[
+                            summary.lowestEmissionCategory.category
+                          ]
                         : "#22c55e",
                     }}
                   />
                 </div>
-                <div>
-                  <p className="text-sm text-muted">Lowest Category</p>
-                  <p className="text-lg font-bold text-foreground">
+                <div className="min-w-0">
+                  <p className="text-xs sm:text-sm text-muted">
+                    Lowest Category
+                  </p>
+                  <p className="text-base sm:text-lg font-bold text-foreground truncate">
                     {summary.lowestEmissionCategory?.category || "N/A"}
                   </p>
                 </div>
@@ -598,14 +610,14 @@ export default function SummariesPage() {
           </div>
 
           {/* Charts */}
-          <div className="mb-8 grid gap-6 lg:grid-cols-2">
+          <div className="mb-6 sm:mb-8 grid gap-4 sm:gap-6 lg:grid-cols-2">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.3 }}
-              className="rounded-xl bg-card p-6 shadow-sm"
+              className="rounded-xl bg-card p-4 sm:p-6 shadow-sm"
             >
-              <div className="h-80">
+              <div className="h-60 sm:h-80">
                 {barChartData && (
                   <Bar data={barChartData} options={barChartOptions} />
                 )}
@@ -616,14 +628,17 @@ export default function SummariesPage() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.35 }}
-              className="rounded-xl bg-card p-6 shadow-sm"
+              className="rounded-xl bg-card p-4 sm:p-6 shadow-sm"
             >
-              <h3 className="mb-4 text-center text-lg font-medium text-muted">
+              <h3 className="mb-3 sm:mb-4 text-center text-base sm:text-lg font-medium text-muted">
                 Emissions Distribution
               </h3>
-              <div className="h-72">
+              <div className="h-60 sm:h-72">
                 {doughnutChartData && (
-                  <Doughnut data={doughnutChartData} options={doughnutChartOptions} />
+                  <Doughnut
+                    data={doughnutChartData}
+                    options={doughnutChartOptions}
+                  />
                 )}
               </div>
             </motion.div>
@@ -655,7 +670,9 @@ export default function SummariesPage() {
                   >
                     <div
                       className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg"
-                      style={{ backgroundColor: `${categoryColors[category]}20` }}
+                      style={{
+                        backgroundColor: `${categoryColors[category]}20`,
+                      }}
                     >
                       <div
                         className="h-4 w-4 rounded-full"
@@ -713,7 +730,8 @@ export default function SummariesPage() {
                   <div className="rounded-lg bg-background p-4">
                     <p className="text-sm text-muted">Previous Week</p>
                     <p className="text-lg font-bold text-foreground">
-                      {summary.reductionTarget.previousWeekEmissions.toFixed(2)} kg
+                      {summary.reductionTarget.previousWeekEmissions.toFixed(2)}{" "}
+                      kg
                     </p>
                   </div>
                 )}
@@ -764,7 +782,11 @@ export default function SummariesPage() {
                   <div className="mb-2 flex items-center justify-between">
                     <span className="text-sm text-muted">Progress</span>
                     <span className="text-sm font-medium text-foreground">
-                      {Math.min(100, summary.reductionTarget.progressPercentage)}%
+                      {Math.min(
+                        100,
+                        summary.reductionTarget.progressPercentage,
+                      )}
+                      %
                     </span>
                   </div>
                   <div className="h-3 overflow-hidden rounded-full bg-background">
@@ -777,7 +799,7 @@ export default function SummariesPage() {
                       style={{
                         width: `${Math.min(
                           100,
-                          summary.reductionTarget.progressPercentage
+                          summary.reductionTarget.progressPercentage,
                         )}%`,
                       }}
                     />
@@ -856,11 +878,11 @@ export default function SummariesPage() {
                   About Weekly Summaries
                 </h3>
                 <p className="mt-1 text-sm text-muted">
-                  Weekly summaries are generated based on your logged activities.
-                  They provide insights into your carbon footprint patterns,
-                  highlight areas for improvement, and track your progress toward
-                  reduction targets. Keep logging activities to get more accurate
-                  and personalized insights! 🌍
+                  Weekly summaries are generated based on your logged
+                  activities. They provide insights into your carbon footprint
+                  patterns, highlight areas for improvement, and track your
+                  progress toward reduction targets. Keep logging activities to
+                  get more accurate and personalized insights! 🌍
                 </p>
               </div>
             </div>

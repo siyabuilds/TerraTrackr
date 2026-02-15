@@ -80,7 +80,7 @@ export default function LeaderboardPage() {
       : 0;
   const totalActivities = leaderboard.reduce(
     (sum, entry) => sum + entry.activityCount,
-    0
+    0,
   );
 
   if (isLoading) {
@@ -92,22 +92,22 @@ export default function LeaderboardPage() {
   }
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8 overflow-x-hidden">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
       >
-        <div className="flex items-center gap-3">
-          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-            <Trophy className="h-6 w-6 text-primary" />
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="flex h-10 w-10 sm:h-12 sm:w-12 flex-shrink-0 items-center justify-center rounded-full bg-primary/10">
+            <Trophy className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
           </div>
-          <div>
-            <h1 className="text-2xl font-bold text-foreground sm:text-3xl">
+          <div className="min-w-0">
+            <h1 className="text-xl font-bold text-foreground sm:text-3xl">
               Leaderboard
             </h1>
-            <p className="text-sm text-muted">
+            <p className="text-xs sm:text-sm text-muted">
               Top eco-warriors with lowest emissions
             </p>
           </div>
@@ -128,20 +128,20 @@ export default function LeaderboardPage() {
       )}
 
       {/* Stats Cards */}
-      <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mb-6 sm:mb-8 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="rounded-xl bg-card p-6 shadow-sm"
+          className="rounded-xl bg-card p-4 sm:p-6 shadow-sm"
         >
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-              <Users className="h-5 w-5 text-primary" />
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="flex h-8 w-8 sm:h-10 sm:w-10 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10">
+              <Users className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
             </div>
-            <div>
-              <p className="text-sm text-muted">Participants</p>
-              <p className="text-2xl font-bold text-foreground">
+            <div className="min-w-0">
+              <p className="text-xs sm:text-sm text-muted">Participants</p>
+              <p className="text-lg sm:text-2xl font-bold text-foreground">
                 {totalParticipants}
               </p>
             </div>
@@ -152,15 +152,15 @@ export default function LeaderboardPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15 }}
-          className="rounded-xl bg-card p-6 shadow-sm"
+          className="rounded-xl bg-card p-4 sm:p-6 shadow-sm"
         >
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-500/10">
-              <TrendingDown className="h-5 w-5 text-blue-500" />
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="flex h-8 w-8 sm:h-10 sm:w-10 flex-shrink-0 items-center justify-center rounded-lg bg-blue-500/10">
+              <TrendingDown className="h-4 w-4 sm:h-5 sm:w-5 text-blue-500" />
             </div>
-            <div>
-              <p className="text-sm text-muted">Avg. Emissions</p>
-              <p className="text-2xl font-bold text-foreground">
+            <div className="min-w-0">
+              <p className="text-xs sm:text-sm text-muted">Avg. Emissions</p>
+              <p className="text-lg sm:text-2xl font-bold text-foreground truncate">
                 {averageEmissions.toFixed(2)} kg
               </p>
             </div>
@@ -171,15 +171,15 @@ export default function LeaderboardPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="rounded-xl bg-card p-6 shadow-sm sm:col-span-2 lg:col-span-1"
+          className="rounded-xl bg-card p-4 sm:p-6 shadow-sm col-span-2 lg:col-span-1"
         >
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-500/10">
-              <Activity className="h-5 w-5 text-amber-500" />
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="flex h-8 w-8 sm:h-10 sm:w-10 flex-shrink-0 items-center justify-center rounded-lg bg-amber-500/10">
+              <Activity className="h-4 w-4 sm:h-5 sm:w-5 text-amber-500" />
             </div>
-            <div>
-              <p className="text-sm text-muted">Total Activities</p>
-              <p className="text-2xl font-bold text-foreground">
+            <div className="min-w-0">
+              <p className="text-xs sm:text-sm text-muted">Total Activities</p>
+              <p className="text-lg sm:text-2xl font-bold text-foreground">
                 {totalActivities}
               </p>
             </div>
@@ -291,8 +291,8 @@ export default function LeaderboardPage() {
                 {leaderboard.map((entry, index) => (
                   <motion.tr
                     key={entry.userId}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
                     transition={{ delay: index * 0.05 }}
                     className={`border-b border-border/50 last:border-0 ${
                       entry.rank <= 3 ? "bg-primary/5" : ""
@@ -320,10 +320,10 @@ export default function LeaderboardPage() {
                           entry.rank === 1
                             ? "bg-yellow-500/20 text-yellow-600"
                             : entry.rank === 2
-                            ? "bg-gray-400/20 text-gray-500"
-                            : entry.rank === 3
-                            ? "bg-orange-500/20 text-orange-600"
-                            : "bg-primary/10 text-primary"
+                              ? "bg-gray-400/20 text-gray-500"
+                              : entry.rank === 3
+                                ? "bg-orange-500/20 text-orange-600"
+                                : "bg-primary/10 text-primary"
                         }`}
                       >
                         {entry.totalEmissions.toFixed(2)}
